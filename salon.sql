@@ -21,7 +21,7 @@ DROP DATABASE salon;
 -- Name: salon; Type: DATABASE; Schema: -; Owner: freecodecamp
 --
 
-CREATE DATABASE salon WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'ru_RU.UTF-8';
+CREATE DATABASE salon WITH TEMPLATE = template0 ENCODING = 'UTF8' LC_COLLATE = 'C.UTF-8' LC_CTYPE = 'C.UTF-8';
 
 
 ALTER DATABASE salon OWNER TO freecodecamp;
@@ -51,7 +51,7 @@ CREATE TABLE public.appointments (
     appointment_id integer NOT NULL,
     customer_id integer,
     service_id integer,
-    "time" character varying NOT NULL
+    "time" character varying
 );
 
 
@@ -70,7 +70,7 @@ CREATE SEQUENCE public.appointments_appointment_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.appointments_appointment_id_seq OWNER TO freecodecamp;
+ALTER TABLE public.appointments_appointment_id_seq OWNER TO freecodecamp;
 
 --
 -- Name: appointments_appointment_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
@@ -85,8 +85,8 @@ ALTER SEQUENCE public.appointments_appointment_id_seq OWNED BY public.appointmen
 
 CREATE TABLE public.customers (
     customer_id integer NOT NULL,
-    name character varying NOT NULL,
-    phone character varying NOT NULL
+    phone character varying,
+    name character varying
 );
 
 
@@ -105,7 +105,7 @@ CREATE SEQUENCE public.customers_customer_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.customers_customer_id_seq OWNER TO freecodecamp;
+ALTER TABLE public.customers_customer_id_seq OWNER TO freecodecamp;
 
 --
 -- Name: customers_customer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
@@ -120,7 +120,7 @@ ALTER SEQUENCE public.customers_customer_id_seq OWNED BY public.customers.custom
 
 CREATE TABLE public.services (
     service_id integer NOT NULL,
-    name character varying NOT NULL
+    name character varying
 );
 
 
@@ -139,7 +139,7 @@ CREATE SEQUENCE public.services_service_id_seq
     CACHE 1;
 
 
-ALTER SEQUENCE public.services_service_id_seq OWNER TO freecodecamp;
+ALTER TABLE public.services_service_id_seq OWNER TO freecodecamp;
 
 --
 -- Name: services_service_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: freecodecamp
@@ -173,15 +173,15 @@ ALTER TABLE ONLY public.services ALTER COLUMN service_id SET DEFAULT nextval('pu
 -- Data for Name: appointments; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.appointments VALUES (1, 1, 3, '10:00');
-INSERT INTO public.appointments VALUES (2, 1, 1, '11:00');
+INSERT INTO public.appointments VALUES (1, 1, 1, '10:30');
+INSERT INTO public.appointments VALUES (2, 1, 3, '11am');
 
 
 --
 -- Data for Name: customers; Type: TABLE DATA; Schema: public; Owner: freecodecamp
 --
 
-INSERT INTO public.customers VALUES (1, 'Fabio', '555-555-5555');
+INSERT INTO public.customers VALUES (1, '555-555-5555', 'Fabio');
 
 
 --
@@ -199,14 +199,14 @@ INSERT INTO public.services VALUES (5, 'trim');
 -- Name: appointments_appointment_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.appointments_appointment_id_seq', 2, true);
+SELECT pg_catalog.setval('public.appointments_appointment_id_seq', 8, true);
 
 
 --
 -- Name: customers_customer_id_seq; Type: SEQUENCE SET; Schema: public; Owner: freecodecamp
 --
 
-SELECT pg_catalog.setval('public.customers_customer_id_seq', 1, true);
+SELECT pg_catalog.setval('public.customers_customer_id_seq', 6, true);
 
 
 --
@@ -265,27 +265,5 @@ ALTER TABLE ONLY public.appointments
 
 
 --
--- Name: SCHEMA public; Type: ACL; Schema: -; Owner: pg_database_owner
---
-
-GRANT CREATE ON SCHEMA public TO freecodecamp;
-
-
---
--- Name: DEFAULT PRIVILEGES FOR SEQUENCES; Type: DEFAULT ACL; Schema: public; Owner: postgres
---
-
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON SEQUENCES TO freecodecamp;
-
-
---
--- Name: DEFAULT PRIVILEGES FOR TABLES; Type: DEFAULT ACL; Schema: public; Owner: postgres
---
-
-ALTER DEFAULT PRIVILEGES FOR ROLE postgres IN SCHEMA public GRANT ALL ON TABLES TO freecodecamp;
-
-
---
 -- PostgreSQL database dump complete
 --
-
